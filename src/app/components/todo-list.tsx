@@ -1,21 +1,34 @@
 'use client'
 
-import { useSelector } from 'react-redux'
-import { store } from '../store'
+import { useState } from 'react'
+import { useAppSelector } from '../store'
+import { IconCopy } from './ui/Icon-copy'
 
 export function TodoList() {
-  const todos = useSelector((store) => {
+  const [copiedId, setCopiedId] = useState('')
+
+  const todos = useAppSelector((store) => {
     return store.todo
   })
 
-  console.log({ store })
+  function handleCopyId(id: string) {
+    setCopiedId(id)
+    navigator.clipboard.writeText(id)
+  }
 
   return (
     <ul className="list-inside list-disc">
       {todos.map((todo) => {
         return (
-          <li key={todo.id}>
-            {todo.value} - {todo.id}
+          <li key={todo.id} className="flex gap-1">
+            <div
+              className="flex items-center gap-2 text-xs duration-150"
+              onClick={() => handleCopyId(todo.id)}
+            >
+              <IconCopy id={todo.id as string} copiedId={copiedId} />
+              <p className="w-20 truncate">{todo.id}</p>
+            </div>
+            <p> - {todo.value}</p>
           </li>
         )
       })}
