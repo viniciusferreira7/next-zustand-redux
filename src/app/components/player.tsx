@@ -1,9 +1,12 @@
-import { MessageCircle } from 'lucide-react'
+'use client'
+
+import { ChevronDown, MessageCircle, Video } from 'lucide-react'
+import ReactPlayer from 'react-player'
 
 export function Player() {
   return (
     <div className="m-auto flex w-full max-w-6xl flex-col gap-6">
-      <div className="flex w-full items-center justify-between">
+      <div className="flex w-full flex-col items-center justify-between md:flex-row">
         {/* Header */}
         <div className="flex flex-col gap-1">
           <h1 className="text-2xl font-bold">Fundamentos do Redux</h1>
@@ -15,9 +18,54 @@ export function Player() {
           <MessageCircle className="size-4" /> Deixar feedback
         </button>
       </div>
-      <main className="relative flex overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900 shadow">
-        <div className="flex-1">video</div>
-        <aside className="border-1 h-[37.5rem] w-full max-w-80 border-zinc-800 bg-zinc-900"></aside>
+      <main className="relative flex flex-col overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900 shadow md:flex-row">
+        <div className="flex-1">
+          <div className="aspect-video w-full bg-zinc-950">
+            <ReactPlayer
+              width="100%"
+              height="100%"
+              controls
+              url="https://www.youtube.com/watch?v=6GdPoXsUayE"
+            />
+          </div>
+        </div>
+        <aside className="border-1 w-full border-zinc-800 bg-zinc-900 md:max-w-80">
+          <div>
+            <button className="flex w-full items-center gap-3 bg-zinc-800 p-4">
+              <div className="grid size-10 place-items-center rounded-full bg-zinc-950 text-xs">
+                1
+              </div>
+              <div className="flex flex-col gap-1 text-left">
+                <strong className="text-sm">Desvendando o Redux</strong>
+                <span className="text-xs text-zinc-400">12 aulas</span>
+              </div>
+              <ChevronDown className="ml-auto size-4 text-zinc-400" />
+            </button>
+            <nav className="relative flex flex-col gap-4 p-6">
+              <button className="group flex items-center gap-3 text-sm text-zinc-400 hover:text-zinc-200">
+                <Video className="size-4 text-zinc-500 group-hover:text-zinc-200" />
+                <span>Fundamentos do Redux</span>
+                <span className="ml-auto font-mono text-xs text-zinc-500 group-hover:text-zinc-200">
+                  09:15
+                </span>
+              </button>
+              <button className="group flex items-center gap-3 text-sm text-zinc-400 hover:text-zinc-200">
+                <Video className="size-4 text-zinc-500 group-hover:text-zinc-200" />
+                <span>Fundamentos do Redux</span>
+                <span className="ml-auto font-mono text-xs text-zinc-500 group-hover:text-zinc-200">
+                  09:15
+                </span>
+              </button>
+              <button className="group flex items-center gap-3 text-sm text-zinc-400 hover:text-zinc-200">
+                <Video className="size-4 text-zinc-500 group-hover:text-zinc-200" />
+                <span>Fundamentos do Redux</span>
+                <span className="ml-auto font-mono text-xs text-zinc-500 group-hover:text-zinc-200">
+                  09:15
+                </span>
+              </button>
+            </nav>
+          </div>
+        </aside>
       </main>
     </div>
   )
