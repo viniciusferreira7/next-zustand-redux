@@ -1,4 +1,4 @@
-import { Player } from './components'
+import { Player } from './components/player/components'
 import { ReduxProvider } from './context/redux-provider'
 
 export default function Home() {
