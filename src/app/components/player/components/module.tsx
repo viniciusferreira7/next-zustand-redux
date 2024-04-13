@@ -5,6 +5,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 import { ChevronDown } from 'lucide-react'
 import { Lesson } from '../ui'
+import { useAppSelector } from '@/app/store'
 
 interface ModuleProps {
   moduleIndex: number
@@ -14,6 +15,9 @@ interface ModuleProps {
 
 export function Module({ moduleIndex, title, amountOfLesson }: ModuleProps) {
   const [parent] = useAutoAnimate()
+  const lessons = useAppSelector((state) => {
+    return state.player.course.modules[moduleIndex].lessons
+  })
 
   return (
     <Collapsible.Root className="group">
@@ -29,7 +33,13 @@ export function Module({ moduleIndex, title, amountOfLesson }: ModuleProps) {
       </Collapsible.Trigger>
       <Collapsible.Content ref={parent} className="transition-transform">
         <nav className="relative flex flex-col gap-4 p-6">
-          <Lesson title="Fundamentos do Redux" duration="9:30" />
+          {lessons?.map((lesson) => (
+            <Lesson
+              key={lesson.id}
+              title={lesson.title}
+              duration={lesson.duration}
+            />
+          ))}
           <Lesson title="Fundamentos do Redux" duration="9:30" />
           <Lesson title="Fundamentos do Redux" duration="9:30" />
         </nav>
