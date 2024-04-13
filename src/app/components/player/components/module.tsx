@@ -1,6 +1,7 @@
 'use client'
 
 import * as Collapsible from '@radix-ui/react-collapsible'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 import { ChevronDown } from 'lucide-react'
 import { Lesson } from '../ui'
@@ -12,6 +13,8 @@ interface ModuleProps {
 }
 
 export function Module({ moduleIndex, title, amountOfLesson }: ModuleProps) {
+  const [parent] = useAutoAnimate()
+
   return (
     <Collapsible.Root className="group">
       <Collapsible.Trigger className="flex w-full items-center gap-3 bg-zinc-800 p-4">
@@ -24,7 +27,7 @@ export function Module({ moduleIndex, title, amountOfLesson }: ModuleProps) {
         </div>
         <ChevronDown className="ml-auto size-4 text-zinc-400 transition-transform group-data-[state=open]:rotate-180" />
       </Collapsible.Trigger>
-      <Collapsible.Content>
+      <Collapsible.Content ref={parent} className="transition-transform">
         <nav className="relative flex flex-col gap-4 p-6">
           <Lesson title="Fundamentos do Redux" duration="9:30" />
           <Lesson title="Fundamentos do Redux" duration="9:30" />

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.8.2",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@reduxjs/toolkit": "^2.2.1",
     "@tabler/icons-react": "^3.1.0",
