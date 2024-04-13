@@ -18,6 +18,13 @@ interface ModuleProps {
 export function Module({ moduleIndex, title, amountOfLesson }: ModuleProps) {
   const [parent] = useAutoAnimate()
   const dispatch = useDispatch()
+
+  const { currentModuleIndex, currentLessonIndex } = useAppSelector((state) => {
+    const { currentModuleIndex, currentLessonIndex } = state.player
+
+    return { currentModuleIndex, currentLessonIndex }
+  })
+
   const lessons = useAppSelector((state) => {
     return state.player.course.modules[moduleIndex].lessons
   })
@@ -36,14 +43,20 @@ export function Module({ moduleIndex, title, amountOfLesson }: ModuleProps) {
       </Collapsible.Trigger>
       <Collapsible.Content ref={parent} className="transition-transform">
         <nav className="relative flex flex-col gap-4 p-6">
-          {lessons?.map((lesson, index) => (
-            <Lesson
-              key={lesson.id}
-              title={lesson.title}
-              duration={lesson.duration}
-              onPlay={() => dispatch(play([moduleIndex, index]))}
-            />
-          ))}
+          {lessons?.map((lesson, index) => {
+            const isCurrent =
+              currentModuleIndex === moduleIndex && currentLessonIndex === index
+
+            return (
+              <Lesson
+                key={lesson.id}
+                title={lesson.title}
+                duration={lesson.duration}
+                isCurrent={isCurrent}
+                onPlay={() => dispatch(play([moduleIndex, index]))}
+              />
+            )
+          })}
         </nav>
       </Collapsible.Content>
     </Collapsible.Root>
