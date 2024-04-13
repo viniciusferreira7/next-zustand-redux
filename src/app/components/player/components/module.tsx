@@ -6,6 +6,8 @@ import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { ChevronDown } from 'lucide-react'
 import { Lesson } from '../ui'
 import { useAppSelector } from '@/app/store'
+import { play } from '@/app/store/slices/player'
+import { useDispatch } from 'react-redux'
 
 interface ModuleProps {
   moduleIndex: number
@@ -15,6 +17,7 @@ interface ModuleProps {
 
 export function Module({ moduleIndex, title, amountOfLesson }: ModuleProps) {
   const [parent] = useAutoAnimate()
+  const dispatch = useDispatch()
   const lessons = useAppSelector((state) => {
     return state.player.course.modules[moduleIndex].lessons
   })
@@ -33,15 +36,14 @@ export function Module({ moduleIndex, title, amountOfLesson }: ModuleProps) {
       </Collapsible.Trigger>
       <Collapsible.Content ref={parent} className="transition-transform">
         <nav className="relative flex flex-col gap-4 p-6">
-          {lessons?.map((lesson) => (
+          {lessons?.map((lesson, index) => (
             <Lesson
               key={lesson.id}
               title={lesson.title}
               duration={lesson.duration}
+              onPlay={() => dispatch(play([moduleIndex, index]))}
             />
           ))}
-          <Lesson title="Fundamentos do Redux" duration="9:30" />
-          <Lesson title="Fundamentos do Redux" duration="9:30" />
         </nav>
       </Collapsible.Content>
     </Collapsible.Root>

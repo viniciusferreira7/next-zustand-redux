@@ -9,7 +9,7 @@ export function Player() {
 
   return (
     <div className="m-auto flex w-full max-w-6xl flex-col gap-6">
-      <div className="flex w-full flex-col items-center justify-between md:flex-row">
+      <div className="flex w-full flex-col items-center justify-between gap-y-2 md:flex-row">
         <Header />
 
         <button className="flex items-center gap-2 rounded bg-violet-500 px-3 py-2 text-sm font-medium text-white duration-300 hover:bg-violet-800">
