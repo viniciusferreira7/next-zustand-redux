@@ -1,28 +1,23 @@
 'use client'
 
-import { useAppSelector } from '@/app/store'
-import { next } from '@/app/store/slices/player'
+import { next, useCurrentLesson } from '@/app/store/slices/player'
+import { useEffect } from 'react'
 import ReactPlayer from 'react-player'
 import { useDispatch } from 'react-redux'
 
 export function Video() {
   const dispatch = useDispatch()
-  const video = useAppSelector((state) => {
-    const { currentModuleIndex, currentLessonIndex } = state.player
+  const { currentLesson } = useCurrentLesson()
 
-    const currentLesson =
-      state.player.course.modules[currentModuleIndex].lessons[
-        currentLessonIndex
-      ]
-
-    return currentLesson
-  })
-
-  const url = new URL(`watch?v=${video.id}`, 'https://www.youtube.com/')
+  const url = new URL(`watch?v=${currentLesson.id}`, 'https://www.youtube.com/')
 
   function handlePlayNext() {
     dispatch(next())
   }
+
+  useEffect(() => {
+    document.title = `Assistindo: ${currentLesson.title}`
+  })
 
   return (
     <div className="flex-1">
