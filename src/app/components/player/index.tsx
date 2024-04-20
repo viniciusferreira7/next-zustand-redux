@@ -1,11 +1,20 @@
 'use client'
 
-import { MessageCircle } from 'lucide-react'
-import { Header, Module, Video } from './components'
 import { useAppSelector } from '@/app/store'
+import { start } from '@/app/store/slices/player'
+import { api } from '@/lib/axios'
+import { MessageCircle } from 'lucide-react'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { Header, Module, Video } from './components'
 
 export function Player() {
-  const modules = useAppSelector((state) => state.player.course.modules)
+  const dispatch = useDispatch()
+  const modules = useAppSelector((state) => state.player?.course?.modules)
+
+  useEffect(() => {
+    api.get('/courses/1/').then((response) => dispatch(start(response.data)))
+  }, [])
 
   return (
     <div className="m-auto flex w-full max-w-6xl flex-col gap-6">

@@ -9,15 +9,22 @@ export function Video() {
   const dispatch = useDispatch()
   const { currentLesson } = useCurrentLesson()
 
-  const url = new URL(`watch?v=${currentLesson.id}`, 'https://www.youtube.com/')
+  const url = new URL(
+    `watch?v=${currentLesson?.id}`,
+    'https://www.youtube.com/',
+  )
 
   function handlePlayNext() {
     dispatch(next())
   }
 
   useEffect(() => {
-    document.title = `Assistindo: ${currentLesson.title}`
+    document.title = `Assistindo: ${currentLesson?.title}`
   })
+
+  if (!currentLesson) {
+    return null
+  }
 
   return (
     <div className="flex-1">
