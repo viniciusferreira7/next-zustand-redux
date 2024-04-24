@@ -1,20 +1,18 @@
 'use client'
 
-import { useAppDispatch, useAppSelector } from '@/app/store'
-import { loadCourse } from '@/app/store/slices/player'
+import { useStore } from '@/app/zustand-store'
 import { MessageCircle } from 'lucide-react'
 import { useEffect } from 'react'
 import { Header, Module, Video } from './components'
 
 export function Player() {
-  const dispatch = useAppDispatch()
-  const modules = useAppSelector((state) => state.player?.course?.modules)
+  const { load, course } = useStore()
 
   useEffect(() => {
-    console.log('aqui')
-    dispatch(loadCourse())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    load()
   }, [])
+
+  console.log(course)
 
   return (
     <div className="m-auto flex w-full max-w-6xl flex-col gap-6">
@@ -28,7 +26,7 @@ export function Player() {
       <main className="relative flex flex-col overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900 shadow md:flex-row md:pr-80">
         <Video />
         <aside className="border-1 divide w-full divide-y-[0.025rem] divide-zinc-950 overflow-y-scroll border-zinc-800 bg-zinc-900 scrollbar-thin scrollbar-track-zinc-950 scrollbar-thumb-zinc-800 md:absolute md:bottom-0 md:right-0 md:top-0 md:max-w-80">
-          {modules?.map((module, index) => (
+          {course?.modules?.map((module, index) => (
             <Module
               key={module.id}
               moduleIndex={index}

@@ -1,25 +1,20 @@
 'use client'
 
-import { useAppSelector } from '@/app/store'
-import { next, useCurrentLesson } from '@/app/store/slices/player'
+import { useCurrentLesson, useStore } from '@/app/zustand-store'
 import { Loader } from 'lucide-react'
 import { useEffect } from 'react'
 import ReactPlayer from 'react-player'
-import { useDispatch } from 'react-redux'
 
 export function Video() {
-  const dispatch = useDispatch()
+  const { isLoading, next } = useStore((store) => {
+    return { isLoading: store.isLoading, next: store.next }
+  })
   const { currentLesson } = useCurrentLesson()
-  const isCourseLoading = useAppSelector((state) => state.player.isLoading)
 
   const url = new URL(
     `watch?v=${currentLesson?.id}`,
     'https://www.youtube.com/',
   )
-
-  function handlePlayNext() {
-    dispatch(next())
-  }
 
   useEffect(() => {
     document.title = `Assistindo: ${currentLesson?.title}`
@@ -32,7 +27,7 @@ export function Video() {
   return (
     <div className="flex-1">
       <div className="aspect-video w-full bg-zinc-950">
-        {isCourseLoading ? (
+        {isLoading ? (
           <div className="grid h-full w-full place-items-center">
             <Loader className="size-6 animate-spin text-zinc-400" />
           </div>
@@ -43,7 +38,7 @@ export function Video() {
             controls
             playing
             url={url.href}
-            onEnded={handlePlayNext}
+            onEnded={next}
           />
         )}
       </div>

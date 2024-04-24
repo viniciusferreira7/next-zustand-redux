@@ -1,13 +1,11 @@
 'use client'
 
-import * as Collapsible from '@radix-ui/react-collapsible'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import * as Collapsible from '@radix-ui/react-collapsible'
 
+import { useStore } from '@/app/zustand-store'
 import { ChevronDown } from 'lucide-react'
 import { Lesson } from '../ui'
-import { useAppSelector } from '@/app/store'
-import { play } from '@/app/store/slices/player'
-import { useDispatch } from 'react-redux'
 
 interface ModuleProps {
   moduleIndex: number
@@ -17,16 +15,16 @@ interface ModuleProps {
 
 export function Module({ moduleIndex, title, amountOfLesson }: ModuleProps) {
   const [parent] = useAutoAnimate()
-  const dispatch = useDispatch()
-
-  const { currentModuleIndex, currentLessonIndex } = useAppSelector((state) => {
-    const { currentModuleIndex, currentLessonIndex } = state.player
-
-    return { currentModuleIndex, currentLessonIndex }
+  const { currentModuleIndex, currentLessonIndex, play } = useStore((store) => {
+    return {
+      currentModuleIndex: store.currentModuleIndex,
+      currentLessonIndex: store.currentLessonIndex,
+      play: store.play,
+    }
   })
 
-  const lessons = useAppSelector((state) => {
-    return state.player?.course?.modules[moduleIndex].lessons
+  const lessons = useStore((state) => {
+    return state.course?.modules[moduleIndex].lessons
   })
 
   return (
@@ -56,7 +54,7 @@ export function Module({ moduleIndex, title, amountOfLesson }: ModuleProps) {
                 title={lesson.title}
                 duration={lesson.duration}
                 isCurrent={isCurrent}
-                onPlay={() => dispatch(play([moduleIndex, index]))}
+                onPlay={() => play([moduleIndex, index])}
               />
             )
           })}
