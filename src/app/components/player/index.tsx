@@ -11,7 +11,9 @@ export function Player() {
   const modules = useAppSelector((state) => state.player?.course?.modules)
 
   useEffect(() => {
+    console.log('aqui')
     dispatch(loadCourse())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
